@@ -1,25 +1,24 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      routes:
-        - id: auth-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/auth/**
+server:
+  port: ${SERVER_PORT:8080}
 
-        - id: user-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/users/**,/api/cards/**
-
+app:
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8082/.well-known/jwks.json
+    jwks-uri: ${AUTH_JWKS_URI}
+
+  services:
+    auth-uri: ${AUTH_SERVICE_URI}
+    user-uri: ${USER_SERVICE_URI}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: never

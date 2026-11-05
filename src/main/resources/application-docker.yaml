@@ -1,0 +1,13 @@
+spring:
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+app:
+  security:
+    jwks-uri: ${AUTH_JWKS_URI}
+
+  services:
+    auth-uri: ${AUTH_SERVICE_URI}
+    user-uri: ${USER_SERVICE_URI}

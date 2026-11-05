@@ -1,0 +1,7 @@
+app:
+  security:
+    jwks-uri: ${AUTH_JWKS_URI:http://localhost:8082/.well-known/jwks.json}
+
+  services:
+    auth-uri: ${AUTH_SERVICE_URI:http://localhost:8082}
+    user-uri: ${USER_SERVICE_URI:http://localhost:8081}
