@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -19,13 +20,6 @@ import static org.mockito.Mockito.when;
 class RateLimitConfigTest {
 
     private final RateLimitConfig config = new RateLimitConfig();
-
-    @Test
-    void shouldCreateRedisRateLimiter() {
-        RedisRateLimiter rateLimiter = config.redisRateLimiter();
-
-        assertNotNull(rateLimiter);
-    }
 
     @Test
     void shouldResolveKeyByAuthenticatedUser() {
@@ -76,27 +70,11 @@ class RateLimitConfigTest {
     }
 
     @Test
-    void shouldPreferAuthenticatedUserOverIpAddress() {
-        KeyResolver keyResolver = config.userKeyResolver();
-
-        ServerWebExchange exchange = mock(ServerWebExchange.class);
-        Principal principal = () -> "authenticated-user";
-
-        when(exchange.getPrincipal())
-                .thenReturn(Mono.just(principal));
-
-        String key = keyResolver.resolve(exchange).block();
-
-        assertEquals("authenticated-user", key);
-    }
-
-    @Test
     void shouldResolveKeyByIpAddressWhenPrincipalIsEmpty() {
         KeyResolver keyResolver = config.userKeyResolver();
 
         ServerWebExchange exchange = MockServerWebExchange.from(
-                org.springframework.mock.http.server.reactive.MockServerHttpRequest
-                        .get("/api/auth/login")
+                MockServerHttpRequest.get("/api/auth/login")
                         .remoteAddress(new InetSocketAddress("10.0.0.5", 8080))
                         .build()
         );

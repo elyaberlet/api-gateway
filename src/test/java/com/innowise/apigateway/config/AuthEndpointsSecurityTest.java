@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "app.security.jwks-uri=http://localhost:8082/.well-known/jwks.json",
+                "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8082/.well-known/jwks.json",
                 "app.services.auth-uri=http://localhost:8082",
                 "app.services.user-uri=http://localhost:8081"
         }

@@ -48,12 +48,10 @@ class JwtConfigTest {
                         .setBody(createJwks())
         );
 
-        SecurityProperties properties = new SecurityProperties(
-                jwksServer.url("/.well-known/jwks.json").toString()
-        );
+        String jwksUri = jwksServer.url("/.well-known/jwks.json").toString();
 
         decoder = new JwtConfig().jwtDecoder(
-                properties,
+                jwksUri,
                 new TokenTypeValidator()
         );
     }

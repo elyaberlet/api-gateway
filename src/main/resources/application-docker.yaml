@@ -1,13 +1,19 @@
 spring:
   data:
     redis:
-      host: redis
-      port: 6379
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
 
-app:
   security:
-    jwks-uri: ${AUTH_JWKS_URI}
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${AUTH_JWKS_URI}
 
   services:
     auth-uri: ${AUTH_SERVICE_URI}
     user-uri: ${USER_SERVICE_URI}
+
+  rate-limit:
+    replenish-rate: ${RATE_LIMIT_REPLENISH_RATE:10}
+    burst-capacity: ${RATE_LIMIT_BURST_CAPACITY:20}

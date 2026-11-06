@@ -5,7 +5,7 @@ import org.springframework.http.server.PathContainer;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
-public final class PublicPaths {
+public final class PublicPath {
 
     private static final PathPatternParser PARSER =
             new PathPatternParser();
@@ -19,7 +19,7 @@ public final class PublicPaths {
     private static final PathPattern REFRESH =
             PARSER.parse("/api/auth/refresh");
 
-    private PublicPaths() {
+    private PublicPath() {
     }
 
     public static boolean isPublic(String path, HttpMethod method) {

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(ServicesProperties.class)
-public class RoutesConfig {
+public class RouteConfig {
 
     @Bean
     public RouteLocator gatewayRoutes(

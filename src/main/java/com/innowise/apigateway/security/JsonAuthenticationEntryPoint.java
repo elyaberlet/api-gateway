@@ -12,7 +12,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.util.Map;
 
 @Component
 public class JsonAuthenticationEntryPoint implements ServerAuthenticationEntryPoint {
@@ -41,8 +40,7 @@ public class JsonAuthenticationEntryPoint implements ServerAuthenticationEntryPo
                 Instant.now(),
                 HttpStatus.UNAUTHORIZED.value(),
                 HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-                "Authentication is required or the access token is invalid",
-                Map.of()
+                "Authentication is required or the access token is invalid"
         );
 
         return response.writeWith(

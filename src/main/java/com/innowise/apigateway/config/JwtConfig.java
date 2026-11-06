@@ -1,7 +1,7 @@
 package com.innowise.apigateway.config;
 
 import com.innowise.apigateway.security.TokenTypeValidator;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -13,17 +13,17 @@ import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 
 @Configuration
-@EnableConfigurationProperties(SecurityProperties.class)
 public class JwtConfig {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder(
-            SecurityProperties securityProperties,
+            @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+            String jwkSetUri,
             TokenTypeValidator tokenTypeValidator
     ) {
         NimbusReactiveJwtDecoder decoder =
                 NimbusReactiveJwtDecoder
-                        .withJwkSetUri(securityProperties.jwksUri())
+                        .withJwkSetUri(jwkSetUri)
                         .jwsAlgorithm(SignatureAlgorithm.RS256)
                         .build();
 

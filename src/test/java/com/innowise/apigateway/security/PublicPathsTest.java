@@ -10,7 +10,7 @@ class PublicPathsTest {
 
     @Test
     void shouldAllowPostLoginWithoutToken() {
-        assertTrue(PublicPaths.isPublic(
+        assertTrue(PublicPath.isPublic(
                 "/api/auth/login",
                 HttpMethod.POST
         ));
@@ -18,7 +18,7 @@ class PublicPathsTest {
 
     @Test
     void shouldAllowPostRegisterWithoutToken() {
-        assertTrue(PublicPaths.isPublic(
+        assertTrue(PublicPath.isPublic(
                 "/api/auth/register",
                 HttpMethod.POST
         ));
@@ -26,7 +26,7 @@ class PublicPathsTest {
 
     @Test
     void shouldAllowPostRefreshWithoutToken() {
-        assertTrue(PublicPaths.isPublic(
+        assertTrue(PublicPath.isPublic(
                 "/api/auth/refresh",
                 HttpMethod.POST
         ));
@@ -34,7 +34,7 @@ class PublicPathsTest {
 
     @Test
     void shouldRejectGetLoginAsPublic() {
-        assertFalse(PublicPaths.isPublic(
+        assertFalse(PublicPath.isPublic(
                 "/api/auth/login",
                 HttpMethod.GET
         ));
@@ -42,7 +42,7 @@ class PublicPathsTest {
 
     @Test
     void shouldRejectUnknownAuthEndpointAsPublic() {
-        assertFalse(PublicPaths.isPublic(
+        assertFalse(PublicPath.isPublic(
                 "/api/auth/logout",
                 HttpMethod.POST
         ));
@@ -50,7 +50,7 @@ class PublicPathsTest {
 
     @Test
     void shouldRejectUserEndpointAsPublic() {
-        assertFalse(PublicPaths.isPublic(
+        assertFalse(PublicPath.isPublic(
                 "/api/users/me",
                 HttpMethod.GET
         ));

@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
@@ -45,29 +48,16 @@ jobs:
         run: ./mvnw -B -ntp clean verify
 
       - name: Code analysis (SonarCloud)
-        if: env.SONAR_TOKEN != ''
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: ${{ env.SONAR_TOKEN != '' }}
         run: >
           ./mvnw -B -ntp
           org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
-          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.host.url=https\://sonarcloud.io
           -Dsonar.organization=elyaberlet
           -Dsonar.projectKey=elyaberlet_api-gateway
           -Dsonar.token=$SONAR_TOKEN
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
           -Dsonar.qualitygate.wait=true
-
-      - name: Upload test and coverage reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: reports
-          path: |
-            target/surefire-reports/
-            target/site/jacoco/
-          if-no-files-found: warn
-          retention-days: 14
 
   docker:
     name: Docker image

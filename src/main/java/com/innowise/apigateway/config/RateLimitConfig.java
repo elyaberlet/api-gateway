@@ -1,5 +1,6 @@
 package com.innowise.apigateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,11 @@ import java.security.Principal;
 public class RateLimitConfig {
 
     @Bean
-    public RedisRateLimiter redisRateLimiter() {
-        return new RedisRateLimiter(10, 20);
+    public RedisRateLimiter redisRateLimiter(
+            @Value("${app.rate-limit.replenish-rate}") int replenishRate,
+            @Value("${app.rate-limit.burst-capacity}") int burstCapacity
+    ) {
+        return new RedisRateLimiter(replenishRate, burstCapacity);
     }
 
     @Bean
