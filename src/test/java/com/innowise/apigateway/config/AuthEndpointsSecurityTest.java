@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
         properties = {
                 "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8082/.well-known/jwks.json",
                 "app.services.auth-uri=http://localhost:8082",
-                "app.services.user-uri=http://localhost:8081"
+                "app.services.user-uri=http://localhost:8081",
+                "app.services.order-uri=http://localhost:8080"
         }
 )
 @AutoConfigureWebTestClient

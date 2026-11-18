@@ -38,6 +38,14 @@ public class RouteConfig {
                         ))
                         .uri(servicesProperties.userUri())
                 )
+                .route("order-service", route -> route
+                        .path("/api/orders/**", "/api/items/**")
+                        .filters(f -> f.requestRateLimiter(config -> config
+                                .setRateLimiter(redisRateLimiter)
+                                .setKeyResolver(userKeyResolver)
+                        ))
+                        .uri(servicesProperties.orderUri())
+                )
 
                 .build();
     }

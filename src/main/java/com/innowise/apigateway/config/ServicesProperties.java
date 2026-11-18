@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.services")
 public record ServicesProperties(
         String authUri,
-        String userUri
+        String userUri,
+        String orderUri
 ) {
 }

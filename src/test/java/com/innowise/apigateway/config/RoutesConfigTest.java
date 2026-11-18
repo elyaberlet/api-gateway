@@ -19,7 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(properties = {
         "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8082/.well-known/jwks.json",
         "app.services.auth-uri=http://localhost:8082",
-        "app.services.user-uri=http://localhost:8081"
+        "app.services.user-uri=http://localhost:8081",
+        "app.services.order-uri=http://localhost:8080"
 })
 class RoutesConfigTest {
 
@@ -37,7 +38,7 @@ class RoutesConfigTest {
                         Function.identity()
                 ));
 
-        assertEquals(2, routes.size());
+        assertEquals(3, routes.size());
 
         assertEquals(
                 URI.create("http://localhost:8082"),
@@ -47,6 +48,11 @@ class RoutesConfigTest {
         assertEquals(
                 URI.create("http://localhost:8081"),
                 routes.get("user-service").getUri()
+        );
+
+        assertEquals(
+                URI.create("http://localhost:8080"),
+                routes.get("order-service").getUri()
         );
     }
 
@@ -85,6 +91,27 @@ class RoutesConfigTest {
                         )
                 ).expectNext(true)
                 .verifyComplete();
+    }
+
+    @Test
+    void shouldRouteOrderRequestsToOrderService() {
+        Route orderRoute = getRoute("order-service");
+
+        StepVerifier.create(
+                orderRoute.getPredicate().apply(
+                        MockServerWebExchange.from(
+                                MockServerHttpRequest.get("/api/orders").build()
+                        )
+                )
+        ).expectNext(true).verifyComplete();
+
+        StepVerifier.create(
+                orderRoute.getPredicate().apply(
+                        MockServerWebExchange.from(
+                                MockServerHttpRequest.get("/api/items").build()
+                        )
+                )
+        ).expectNext(true).verifyComplete();
     }
 
     private Route getRoute(String routeId) {

@@ -37,6 +37,7 @@ import static org.mockito.Mockito.when;
         "app.security.jwks-uri=http://localhost:8082/.well-known/jwks.json",
         "app.services.auth-uri=http://localhost:8082",
         "app.services.user-uri=http://localhost:8081",
+        "app.services.order-uri=http://localhost:8080",
         "management.health.redis.enabled=false"
 })
 @AutoConfigureWebTestClient

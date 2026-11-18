@@ -15,6 +15,7 @@ app:
   services:
     auth-uri: ${AUTH_SERVICE_URI}
     user-uri: ${USER_SERVICE_URI}
+    order-uri: ${ORDER_SERVICE_URI}
 
   rate-limit:
     replenish-rate: ${RATE_LIMIT_REPLENISH_RATE:10}
